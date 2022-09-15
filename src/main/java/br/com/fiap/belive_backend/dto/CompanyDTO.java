@@ -9,6 +9,7 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.br.CNPJ;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder(toBuilder = true)
@@ -16,6 +17,7 @@ import javax.validation.Valid;
 @NoArgsConstructor
 public class CompanyDTO extends UserDTO{
 
+    @NotNull(message = "CNPJ cant'be null")
     @CNPJ(message = "Invalid CNPJ")
     @Valid
     private String cnpj;
