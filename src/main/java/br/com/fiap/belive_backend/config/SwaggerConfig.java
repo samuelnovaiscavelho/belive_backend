@@ -35,7 +35,7 @@ public class SwaggerConfig  implements WebMvcConfigurer {
     public Docket docket() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.example.belivebackend.controller"))
+                .apis(RequestHandlerSelectors.basePackage("br.com.fiap.belive_backend"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo());
