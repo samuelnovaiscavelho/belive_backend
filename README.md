@@ -83,7 +83,7 @@ Authorization -> **Type:** Basic Auth
 - [x] Password
 
 
-# Empresa - Company
+## Empresa - Company
 
 ### POST REGISTER
 
