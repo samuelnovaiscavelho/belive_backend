@@ -1,5 +1,7 @@
 # belive_backend
 
+> ## DevOps Tools & Cloud Computing - João Carlos Menk
+<img align="center" alt="BeLive-HTML" height="120" width="130" src="https://github.com/samuelnovaiscavelho/img_BeLive/blob/main/Belive1.png">
 
 # STACK TECNOLOGICO
 * [![Java][Java]][Java-url]
@@ -7,9 +9,6 @@
 * [![React][React]][React-url]
 * [![React Native][React Native]][React Native-url]
 * [![Azure][Azure]][Azure-url]
-
-> ## DevOps Tools & Cloud Computing - João Carlos Menk
-<img align="center" alt="BeLive-HTML" height="120" width="130" src="https://github.com/samuelnovaiscavelho/img_BeLive/blob/main/Belive1.png">
 
 # Cliente - Customer
 ### POST REGISTER
