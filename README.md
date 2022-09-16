@@ -9,6 +9,9 @@
 * [![React Native][React Native]][React Native-url]
 * [![Azure][Azure]][Azure-url]
 
+## Arquitetura de Solução 
+<img align="center" alt="Arquitetura-Solucao" src="https://i.imgur.com/6erHJsM.png">
+
 ## Cliente - Customer
 ### POST REGISTER
 
