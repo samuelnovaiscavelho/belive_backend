@@ -1,4 +1,4 @@
-# Belive
+## Belive
 
 <img align="center" alt="BeLive-HTML" height="120" width="130" src="https://github.com/samuelnovaiscavelho/img_BeLive/blob/main/Belive1.png">
 
@@ -9,7 +9,7 @@
 * [![React Native][React Native]][React Native-url]
 * [![Azure][Azure]][Azure-url]
 
-# Cliente - Customer
+## Cliente - Customer
 ### POST REGISTER
 
 [POST] - http://localhost:8080/user/customer/register
