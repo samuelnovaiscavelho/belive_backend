@@ -3,7 +3,7 @@
 > ## DevOps Tools & Cloud Computing - João Carlos Menk
 <img align="center" alt="BeLive-HTML" height="120" width="130" src="https://github.com/samuelnovaiscavelho/img_BeLive/blob/main/Belive1.png">
 
-# STACK TECNOLOGICO
+## Stack tecnologico
 * [![Java][Java]][Java-url]
 * [![Spring][Spring]][Spring-url]
 * [![React][React]][React-url]
