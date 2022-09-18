@@ -2,6 +2,13 @@
 
 <img align="center" alt="BeLive-HTML" height="120" width="130" src="https://github.com/samuelnovaiscavelho/img_BeLive/blob/main/Belive1.png">
 
+## Proposta
+O BeLive tem como proposta oferecer um sistema onde o cliente poderá realizar consultas médicas de maneira facilitada. Oferecendo um sistema simplificado e intuitivo de forma a atender as necessidades dos clientes que necessitam de atendimento médico mas possuem dificuldade para lidar com tecnologia.
+
+## Documentação
+[CHALLENGE_DEF_SPRINT_3.docx](https://github.com/evertonSouzaMeli/belive_backend/files/9595297/CHALLENGE_DEF_SPRINT_3.docx)
+
+
 ## Stack tecnologico
 * [![Java][Java]][Java-url]
 * [![Spring][Spring]][Spring-url]
