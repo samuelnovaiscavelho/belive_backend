@@ -2,6 +2,7 @@ package br.com.fiap.belive_backend.service;
 
 import br.com.fiap.belive_backend.config.NullAwareBeanUtilsBean;
 import br.com.fiap.belive_backend.dto.CustomerDTO;
+import br.com.fiap.belive_backend.exception.UserNotFoundException;
 import br.com.fiap.belive_backend.model.Customer;
 import br.com.fiap.belive_backend.model.User;
 import br.com.fiap.belive_backend.model.User.UserLogin;
@@ -52,7 +53,7 @@ public class CustomerServiceDefault implements DefaultUserService<Customer, Cust
 
         return customerRepository.findByUserLogin_Username(userInfo.get(0))
                 .filter(user -> user.getTypeOfUser().equals(User.Type.CUSTOMER))
-                .orElse(null);
+                .orElseThrow(() -> new UserNotFoundException("Customer not found"));
     }
 
     @SneakyThrows

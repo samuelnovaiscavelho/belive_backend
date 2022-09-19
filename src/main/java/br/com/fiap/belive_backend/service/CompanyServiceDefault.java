@@ -2,6 +2,7 @@ package br.com.fiap.belive_backend.service;
 
 import br.com.fiap.belive_backend.config.NullAwareBeanUtilsBean;
 import br.com.fiap.belive_backend.dto.CompanyDTO;
+import br.com.fiap.belive_backend.exception.UserNotFoundException;
 import br.com.fiap.belive_backend.model.Company;
 import br.com.fiap.belive_backend.model.User;
 import br.com.fiap.belive_backend.model.User.UserLogin;
@@ -9,9 +10,7 @@ import br.com.fiap.belive_backend.repository.CompanyRepository;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CompanyServiceDefault implements DefaultUserService<Company, CompanyDTO> {
@@ -51,7 +50,7 @@ public class CompanyServiceDefault implements DefaultUserService<Company, Compan
 
         return companyRepository.findByUserLogin_Username(username)
                 .filter(user -> user.getTypeOfUser().equals(User.Type.COMPANY))
-                .orElse(null);
+                .orElseThrow(() -> new UserNotFoundException("Company not found"));
     }
 
     @SneakyThrows

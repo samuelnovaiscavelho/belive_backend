@@ -1,5 +1,6 @@
 package br.com.fiap.belive_backend.advice;
 
+import br.com.fiap.belive_backend.exception.UserNotFoundException;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
@@ -37,7 +38,7 @@ public class GlobalHandlerException {
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleUserNotFoundException(UsernameNotFoundException usernameNotFoundException){
+    public ResponseEntity<ErrorResponse> handleUsernameNotFoundException(UsernameNotFoundException usernameNotFoundException){
         HttpStatus errorCode = HttpStatus.UNAUTHORIZED;
 
         ErrorResponse errorResponse = ErrorResponse.builder()
@@ -45,6 +46,20 @@ public class GlobalHandlerException {
                 .timestamp(Date.from(Instant.now()))
                 .status(errorCode.value())
                 .message(usernameNotFoundException.getLocalizedMessage())
+                .build();
+
+        return new ResponseEntity<>(errorResponse, errorCode);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException userNotFoundException){
+        HttpStatus errorCode = HttpStatus.NOT_FOUND;
+
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .error(errorCode.name())
+                .timestamp(Date.from(Instant.now()))
+                .status(errorCode.value())
+                .message(userNotFoundException.getLocalizedMessage())
                 .build();
 
         return new ResponseEntity<>(errorResponse, errorCode);
