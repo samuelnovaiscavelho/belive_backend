@@ -10,7 +10,9 @@ import br.com.fiap.belive_backend.repository.CompanyRepository;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.Map;
 
 @Service
 public class CompanyServiceDefault implements DefaultUserService<Company, CompanyDTO> {

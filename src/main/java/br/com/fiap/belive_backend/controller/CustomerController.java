@@ -1,7 +1,6 @@
 package br.com.fiap.belive_backend.controller;
 
 import br.com.fiap.belive_backend.dto.CustomerDTO;
-import br.com.fiap.belive_backend.model.Company;
 import br.com.fiap.belive_backend.model.Customer;
 import br.com.fiap.belive_backend.model.User.UserLogin;
 import br.com.fiap.belive_backend.service.CustomerServiceDefault;

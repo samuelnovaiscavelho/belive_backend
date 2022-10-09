@@ -55,4 +55,10 @@ public class CompanyController {
         companyService.deleteCompany(token);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/appointment")
+    public ResponseEntity<?> getAvaliableCompanyForAppointment(){
+        return null;
+    }
+
 }
