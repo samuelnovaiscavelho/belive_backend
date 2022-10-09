@@ -1,20 +1,22 @@
 package br.com.fiap.belive_backend.model;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 import org.springframework.data.mongodb.core.index.Indexed;
 
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
-@SuperBuilder(toBuilder = true)
-@Data
 @NoArgsConstructor
-public class Company extends User {
+@Data
+public class Doctor {
     @Indexed(unique = true, background = true)
-    private String cnpj;
+    private String id;
 
-    private List<Doctor> doctorList;
+    private String name;
+
+    private Integer crm;
+
+    private String speciality;
+
+    private List<Appointment> appointmentList;
 }
