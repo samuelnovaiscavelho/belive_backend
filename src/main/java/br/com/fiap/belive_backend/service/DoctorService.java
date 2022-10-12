@@ -8,6 +8,7 @@ import br.com.fiap.belive_backend.model.Customer;
 import br.com.fiap.belive_backend.model.Doctor;
 import br.com.fiap.belive_backend.utils.DateUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.models.auth.In;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
@@ -60,11 +61,6 @@ public class DoctorService {
     public Doctor register(String token, Doctor doctor) {
         Company company = companyService.getUserByUsername(token);
 
-        /*if(Objects.isNull(doctor.getStartWork())){
-            doctor.setStartWork(LocalTime.of(9, 0));
-            doctor.setFinishWork(LocalTime.of(18, 0));
-        }*/
-
         try {
             if (company.getDoctorList().stream().noneMatch(dr -> Objects.equals(doctor.getCrm(), dr.getCrm()))) {
                 company.getDoctorList().add(doctor);
@@ -113,7 +109,7 @@ public class DoctorService {
         companyService.updateCompany(token, company);
     }
 
-    public Map<String, Object> avaliableSchedule(String cnpj, Integer crm, Integer day, Integer month) {
+    public Map<String, Object> avaliableScheduleByCRM(String cnpj, Integer day, Integer month, Integer crm) {
         Doctor doctor = findByCRM(cnpj, crm);
 
         if (!DateUtils.isValidDate(day, month))
@@ -151,5 +147,9 @@ public class DoctorService {
         response.put("scheduleAvaliable", localDateTimeList);
 
         return response;
+    }
+
+    public List<Map<String, Object>> avaliableScheduleBySpecialist(String cnpj, Integer day, Integer month, String speciality){
+        return null;
     }
 }

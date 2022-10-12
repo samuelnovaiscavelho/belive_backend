@@ -63,14 +63,34 @@ public class DoctorController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/fill_work_hour")
+    @GetMapping("/avaliable_schedule")
     public ResponseEntity<Map<String, Object>> avaliableSchedule(
             @RequestParam(defaultValue = "") Integer crm,
             @RequestParam(defaultValue = "") Integer day,
             @RequestParam(defaultValue = "") Integer month,
-            @RequestParam(defaultValue = "") String cnpj) {
+            @RequestParam(defaultValue = "") String cnpj,
+            @RequestParam(defaultValue = "") String specialist ) {
 
-        Map<String, Object> response = doctorService.avaliableSchedule(cnpj, crm, day, month);
+        Map<String, Object> response = doctorService.avaliableScheduleByCRM(cnpj, day, month, crm);
+
+        List<LocalDateTime> localDateTimeList = (List<LocalDateTime>) response.get("scheduleAvaliable");
+
+        response.replace("scheduleAvaliable", localDateTimeList.stream().map(localDateTime -> {
+            DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+            return ZonedDateTime.of(localDateTime, ZoneId.of("America/Sao_Paulo")).format(FORMATTER);
+        }).toList());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/avaliable_schedule/list")
+    public ResponseEntity<Map<String, Object>> avaliableSchedule(
+            @RequestParam(defaultValue = "") Integer day,
+            @RequestParam(defaultValue = "") Integer month,
+            @RequestParam(defaultValue = "") String cnpj,
+            @RequestParam(defaultValue = "") String specialist ) {
+
+        Map<String, Object> response = doctorService.avaliableScheduleBySpecialist(cnpj, day, month, specialist);
 
         List<LocalDateTime> localDateTimeList = (List<LocalDateTime>) response.get("scheduleAvaliable");
 
