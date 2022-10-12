@@ -16,7 +16,7 @@
     <name>belive_backend</name>
     <description>belive_backend</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -124,7 +124,7 @@
                     <region>centralus</region>
                     <runtime>
                         <os>Windows</os>
-                        <javaVersion>Java 11</javaVersion>
+                        <javaVersion>Java 17</javaVersion>
                         <webContainer>Java SE</webContainer>
                     </runtime>
                     <deployment>

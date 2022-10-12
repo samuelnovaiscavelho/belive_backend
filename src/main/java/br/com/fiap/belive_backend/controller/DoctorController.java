@@ -90,11 +90,11 @@ public class DoctorController {
             @RequestParam(defaultValue = "") String cnpj,
             @RequestParam(defaultValue = "") String specialist ) {
 
-        Map<String, Object> response = doctorService.avaliableScheduleBySpecialist(cnpj, day, month, specialist);
+        List<Map<String, Object>> response = doctorService.avaliableScheduleBySpecialist(cnpj, day, month, specialist);
 
         List<LocalDateTime> localDateTimeList = (List<LocalDateTime>) response.get("scheduleAvaliable");
 
-        response.replace("scheduleAvaliable", localDateTimeList.stream().map(localDateTime -> {
+        response.forEach( r -> r.replace("scheduleAvaliable", localDateTimeList.stream().map(localDateTime -> {
             DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
             return ZonedDateTime.of(localDateTime, ZoneId.of("America/Sao_Paulo")).format(FORMATTER);
         }).toList());
