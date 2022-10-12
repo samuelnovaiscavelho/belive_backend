@@ -7,7 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -38,23 +43,42 @@ public class DoctorController {
     @GetMapping(value = "/get/list", params = "speciality")
     public ResponseEntity<List<Doctor>> getAllBySpeciality(@RequestHeader(value = "Authorization") String token,
                                                            @RequestParam(name = "speciality") String speciality){
-        return ResponseEntity.ok(doctorService.findAllBySpeciality(token, speciality));
+        return ResponseEntity.ok(doctorService.findAllBySpecialityWithToken(token, speciality));
     }
 
     @GetMapping(value = "/get", params = "crm")
     public ResponseEntity<Doctor> getByCRM(@RequestHeader(value = "Authorization") String token,
                                            @RequestParam(name = "crm") Integer crm) {
-        return ResponseEntity.ok(doctorService.findByCRM(token, crm));
+        return ResponseEntity.ok(doctorService.findByCRMWithToken(token, crm));
     }
 
     @PatchMapping("/update")
     public ResponseEntity<Doctor> updateDoctor(@RequestHeader(value = "Authorization") String token, @RequestBody Doctor doctor){
-        return ResponseEntity.ok(doctorService.update(token, doctor));
+        return ResponseEntity.ok(doctorService.updateWithToken(token, doctor));
     }
 
     @DeleteMapping("/delete")
     public ResponseEntity<?> deleteDoctor(@RequestHeader(value = "Authorization") String token, @RequestBody Doctor doctor){
         doctorService.delete(token, doctor.getCrm());
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/fill_work_hour")
+    public ResponseEntity<Map<String, Object>> avaliableSchedule(
+            @RequestParam(defaultValue = "") Integer crm,
+            @RequestParam(defaultValue = "") Integer day,
+            @RequestParam(defaultValue = "") Integer month,
+            @RequestParam(defaultValue = "") String cnpj) {
+
+        Map<String, Object> response = doctorService.avaliableSchedule(cnpj, crm, day, month);
+
+        List<LocalDateTime> localDateTimeList = (List<LocalDateTime>) response.get("scheduleAvaliable");
+
+        response.replace("scheduleAvaliable", localDateTimeList.stream().map(localDateTime -> {
+            DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+            return ZonedDateTime.of(localDateTime, ZoneId.of("America/Sao_Paulo")).format(FORMATTER);
+        }).toList());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

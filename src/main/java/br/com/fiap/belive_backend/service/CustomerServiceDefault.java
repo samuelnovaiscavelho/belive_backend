@@ -29,6 +29,8 @@ public class CustomerServiceDefault implements DefaultUserService<Customer, Cust
 
     @Override
     public Customer register(CustomerDTO customerDTO){
+        customerDTO.setCpf(customerDTO.getCpf().replaceAll("\\D", ""));
+
         Customer customer = CustomerDTO.toModel(customerDTO);
 
         encryptPassword(customer.getUserLogin());
