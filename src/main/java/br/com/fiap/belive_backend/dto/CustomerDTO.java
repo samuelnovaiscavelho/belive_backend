@@ -31,4 +31,14 @@ public class CustomerDTO extends UserDTO {
                 .typeOfUser(User.Type.CUSTOMER)
                 .build();
     }
+
+    public static CustomerDTO toDTO(Customer customer) {
+        return CustomerDTO.builder()
+                .name(customer.getName())
+                .userLoginDTO(UserLoginDTO.toDTO(customer.getUserLogin()))
+                .addressDTO(AddressDTO.toDTO(customer.getAddress()))
+                .cpf(customer.getCpf())
+                .typeOfUser(customer.getTypeOfUser())
+                .build();
+    }
 }

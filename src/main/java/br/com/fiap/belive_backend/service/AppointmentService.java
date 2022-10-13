@@ -1,16 +1,14 @@
 package br.com.fiap.belive_backend.service;
 
+import br.com.fiap.belive_backend.dto.AppointmentDTO;
+import br.com.fiap.belive_backend.dto.CustomerDTO;
+import br.com.fiap.belive_backend.dto.DoctorDTO;
 import br.com.fiap.belive_backend.model.Appointment;
 import br.com.fiap.belive_backend.model.Appointment.AppointmentStatus;
 import br.com.fiap.belive_backend.model.Customer;
 import br.com.fiap.belive_backend.model.Doctor;
 import br.com.fiap.belive_backend.repository.AppointmentRepository;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.chrono.ChronoLocalDateTime;
-import java.util.*;
 
 @Service
 public class AppointmentService {
@@ -27,17 +25,16 @@ public class AppointmentService {
         this.customerServiceDefault = customerServiceDefault;
     }
 
-    public Appointment createAppointment(String token, LocalDateTime dateTimeMedicalAppointment, String cnpj, Integer crm) {
-        Doctor doctor = doctorService.findByCRM(cnpj, crm);
+    public Appointment createAppointment(String token, AppointmentDTO appointmentDTO) {
+        Doctor doctor = doctorService.findByCRM(appointmentDTO.getCompanyDTO().getCnpj(), appointmentDTO.getDoctor().getCrm());
         Customer customer = customerServiceDefault.getUserByUsername(token);
 
-        Appointment appointment = Appointment
-                .builder()
-                .startOfAppointment(dateTimeMedicalAppointment)
-                .doctor(doctor)
-                .customer(customer)
-                .appointmentStatus(AppointmentStatus.IN_PROGRESS)
-                .build();
+        appointmentDTO.setCustomer(CustomerDTO.toDTO(customer));
+        appointmentDTO.setDoctor(DoctorDTO.toDTO(doctor));
+
+        Appointment appointment = AppointmentDTO.toModel(appointmentDTO);
+
+        appointment.setAppointmentStatus(AppointmentStatus.IN_PROGRESS);
 
         customer.getAppointmentList().add(appointment);
 
@@ -47,7 +44,7 @@ public class AppointmentService {
 
         appointmentRepository.save(appointment);
 
-        doctorService.update(cnpj, doctor);
+        doctorService.update(appointmentDTO.getCompanyDTO().getCnpj(), doctor);
 
         return appointment;
     }

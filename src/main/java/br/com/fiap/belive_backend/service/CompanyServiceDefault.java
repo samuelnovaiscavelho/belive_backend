@@ -81,9 +81,13 @@ public class CompanyServiceDefault implements DefaultUserService<Company, Compan
     }
 
     public List<Company> findAllCompanyContainsDoctorSpecialist(String specialist){
-        return companyRepository.findAll().stream()
+        List<Company> companyList = companyRepository.findAll().stream()
                 .filter(company -> company.getDoctorList().stream()
                         .anyMatch(doctor -> doctor.getSpeciality().equalsIgnoreCase(specialist)))
                 .toList();
+
+        companyList.forEach(company -> company.getDoctorList().removeIf(doctor -> !doctor.getSpeciality().equals(specialist)));
+
+        return companyList;
     }
 }

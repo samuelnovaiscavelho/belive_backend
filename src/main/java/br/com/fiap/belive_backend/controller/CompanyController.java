@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -54,5 +55,11 @@ public class CompanyController {
     public ResponseEntity<?> deleteCustomer(@RequestHeader(value = "Authorization") String token) {
         companyService.deleteCompany(token);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/get/available_company")
+    public ResponseEntity<List<Company>> findAllCompanyWithSpecialist(@RequestParam(defaultValue = "") String specialist){
+        List<Company> availableCompany = companyService.findAllCompanyContainsDoctorSpecialist(specialist);
+        return ResponseEntity.ok(availableCompany);
     }
 }

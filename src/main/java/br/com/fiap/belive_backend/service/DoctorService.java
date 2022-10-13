@@ -4,18 +4,16 @@ import br.com.fiap.belive_backend.config.NullAwareBeanUtilsBean;
 import br.com.fiap.belive_backend.exception.UserNotFoundException;
 import br.com.fiap.belive_backend.model.Appointment;
 import br.com.fiap.belive_backend.model.Company;
-import br.com.fiap.belive_backend.model.Customer;
 import br.com.fiap.belive_backend.model.Doctor;
 import br.com.fiap.belive_backend.utils.DateUtils;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.models.auth.In;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
-import java.time.*;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Month;
 import java.util.*;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Service
@@ -110,46 +108,55 @@ public class DoctorService {
     }
 
     public Map<String, Object> avaliableScheduleByCRM(String cnpj, Integer day, Integer month, Integer crm) {
-        Doctor doctor = findByCRM(cnpj, crm);
+      Doctor doctor = findByCRM(cnpj, crm);
+
+    return avaliableScheduleBySpecialist(cnpj, day, month, doctor.getSpeciality()).stream()
+              .filter( schedule -> {
+                 var doctorCrm = (Integer) schedule.get("crm");
+                 return doctorCrm.equals(doctor.getCrm());
+              }).findAny()
+              .orElseThrow(() -> new RuntimeException("Doctor not found"));
+    }
+
+    public List<Map<String, Object>> avaliableScheduleBySpecialist(String cnpj, Integer day, Integer month, String speciality){
+        List<Doctor> doctorList = findAllBySpeciality(cnpj, speciality);
 
         if (!DateUtils.isValidDate(day, month))
             throw new RuntimeException("Invalid Date");
 
-        var start = doctor.getStartWork();
-        var finish = doctor.getFinishWork();
+       return doctorList.stream().map(doctor -> {
+            var start = doctor.getStartWork();
+            var finish = doctor.getFinishWork();
 
-        var scheduledDateTime = doctor.getScheduledAppointment().stream()
-                .map(Appointment::getStartOfAppointment)
-                .filter(appointmentDateTime ->
-                        appointmentDateTime.getDayOfMonth() == day && appointmentDateTime.getMonthValue() == month)
-                .toList();
+            var scheduledDateTime = doctor.getScheduledAppointment().stream()
+                    .map(Appointment::getStartOfAppointment)
+                    .filter(appointmentDateTime ->
+                            appointmentDateTime.getDayOfMonth() == day && appointmentDateTime.getMonthValue() == month)
+                    .toList();
 
-        List<LocalTime> localTimeList = new ArrayList<>();
+            List<LocalTime> localTimeList = new ArrayList<>();
 
-        while (start.isBefore(finish)) {
-            localTimeList.add(start);
-            start = start.plusMinutes(30);
-        }
+            while (start.isBefore(finish)) {
+                localTimeList.add(start);
+                start = start.plusMinutes(30);
+            }
 
-        List<LocalDateTime> localDateTimeList = localTimeList.stream()
-                .map(localTime ->
-                        LocalDateTime.of(
-                                LocalDate.of(Calendar.getInstance().get(Calendar.YEAR), Month.of(month), day),
-                                localTime))
-                .filter(localDateTime -> scheduledDateTime.stream()
-                         .noneMatch(appointmentDateTime -> appointmentDateTime.isEqual(localDateTime))).toList();
+            List<LocalDateTime> localDateTimeList = localTimeList.stream()
+                    .map(localTime ->
+                            LocalDateTime.of(
+                                    LocalDate.of(Calendar.getInstance().get(Calendar.YEAR), Month.of(month), day),
+                                    localTime))
+                    .filter(localDateTime -> scheduledDateTime.stream()
+                            .noneMatch(appointmentDateTime -> appointmentDateTime.isEqual(localDateTime))).toList();
 
-        Map<String, Object> response = new HashMap<>();
+            Map<String, Object> response = new HashMap<>();
 
-        response.put("crm", doctor.getCrm());
-        response.put("name", doctor.getName());
-        response.put("speciality", doctor.getSpeciality());
-        response.put("scheduleAvaliable", localDateTimeList);
+            response.put("crm", doctor.getCrm());
+            response.put("name", doctor.getName());
+            response.put("speciality", doctor.getSpeciality());
+            response.put("scheduleAvaliable", localDateTimeList);
 
-        return response;
-    }
-
-    public List<Map<String, Object>> avaliableScheduleBySpecialist(String cnpj, Integer day, Integer month, String speciality){
-        return null;
+           return response;
+        }).toList();
     }
 }

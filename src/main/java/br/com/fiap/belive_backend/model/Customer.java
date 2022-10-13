@@ -4,8 +4,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.springframework.data.mongodb.core.index.Indexed;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -13,8 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Customer extends User {
-    @Indexed(unique = true, background = true)
     private String cpf;
 
-    private List<Appointment> appointmentList;
+    private List<Appointment> appointmentList = new ArrayList<>();
 }

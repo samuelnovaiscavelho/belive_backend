@@ -31,5 +31,5 @@ public class UserDTO {
     @Valid
     private UserLoginDTO userLoginDTO;
 
-    private Type type;
+    private Type typeOfUser;
 }
