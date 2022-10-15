@@ -26,7 +26,6 @@ public class CustomerDTO extends UserDTO {
         return Customer.builder()
                 .name(customerDTO.getName())
                 .userLogin(UserLoginDTO.toModel(customerDTO.getUserLoginDTO()))
-                .address(AddressDTO.toModel(customerDTO.getAddressDTO()))
                 .cpf(customerDTO.getCpf())
                 .typeOfUser(User.Type.CUSTOMER)
                 .build();
@@ -36,7 +35,6 @@ public class CustomerDTO extends UserDTO {
         return CustomerDTO.builder()
                 .name(customer.getName())
                 .userLoginDTO(UserLoginDTO.toDTO(customer.getUserLogin()))
-                .addressDTO(AddressDTO.toDTO(customer.getAddress()))
                 .cpf(customer.getCpf())
                 .typeOfUser(customer.getTypeOfUser())
                 .build();

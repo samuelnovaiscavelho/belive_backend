@@ -26,6 +26,9 @@ public class CustomerController {
 
     @PostMapping("/register")
     public ResponseEntity<Customer> register(@Valid @RequestBody CustomerDTO customerDTO){
+        if (customerDTO.getUserLoginDTO().getPassword().equals(null)){
+            throw new RuntimeException("Senha nula");
+        }
         return new ResponseEntity<>(customerService.register(customerDTO), HttpStatus.CREATED);
     }
 

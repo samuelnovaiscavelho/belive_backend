@@ -27,8 +27,6 @@ public abstract class User {
 
     private UserLogin userLogin;
 
-    private Address address;
-
     private Type typeOfUser;
 
     @CreatedDate
