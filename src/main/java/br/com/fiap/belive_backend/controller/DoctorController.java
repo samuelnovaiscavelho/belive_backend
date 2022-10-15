@@ -13,6 +13,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -97,7 +98,7 @@ public class DoctorController {
         response.replace("scheduleAvaliable", localDateTimeList.stream().map(localDateTime -> {
             DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
             return ZonedDateTime.of(localDateTime, ZoneId.of("America/Sao_Paulo")).format(FORMATTER);
-        }).toList());
+        }).collect(Collectors.toList()));
     }
 }
 

@@ -141,7 +141,7 @@ public class DoctorService {
                     .map(Appointment::getStartOfAppointment)
                     .filter(appointmentDateTime ->
                             appointmentDateTime.getDayOfMonth() == day && appointmentDateTime.getMonthValue() == month)
-                    .toList();
+                    .collect(Collectors.toList());
 
             List<LocalTime> localTimeList = new ArrayList<>();
 
@@ -156,7 +156,7 @@ public class DoctorService {
                                     LocalDate.of(Calendar.getInstance().get(Calendar.YEAR), Month.of(month), day),
                                     localTime))
                     .filter(localDateTime -> scheduledDateTime.stream()
-                            .noneMatch(appointmentDateTime -> appointmentDateTime.isEqual(localDateTime))).toList();
+                            .noneMatch(appointmentDateTime -> appointmentDateTime.isEqual(localDateTime))).collect(Collectors.toList());
 
             Map<String, Object> response = new HashMap<>();
 
@@ -169,6 +169,6 @@ public class DoctorService {
                             ? Collections.EMPTY_LIST : localDateTimeList);
 
            return response;
-        }).toList();
+        }).collect(Collectors.toList());
     }
 }

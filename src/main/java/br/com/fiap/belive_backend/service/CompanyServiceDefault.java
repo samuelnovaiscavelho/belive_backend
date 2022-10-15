@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class CompanyServiceDefault implements DefaultUserService<Company, CompanyDTO> {
@@ -60,7 +61,7 @@ public class CompanyServiceDefault implements DefaultUserService<Company, Compan
     public Company getUserByUsername(String token) {
         String decodedToken = new String(Base64.getDecoder().decode(token.replace("Basic ", "")));
 
-        String username = Arrays.stream(decodedToken.split(":")).toList().get(0);
+        String username = Arrays.stream(decodedToken.split(":")).collect(Collectors.toList()).get(0);
 
         return companyRepository.findByUserLogin_Username(username)
                 .filter(user -> user.getTypeOfUser().equals(User.Type.COMPANY))
@@ -89,7 +90,7 @@ public class CompanyServiceDefault implements DefaultUserService<Company, Compan
         List<Company> companyList = companyRepository.findAll().stream()
                 .filter(company -> company.getDoctorList().stream()
                         .anyMatch(doctor -> doctor.getSpeciality().equalsIgnoreCase(specialist)))
-                .toList();
+                .collect(Collectors.toList());
 
         companyList.forEach(company -> company.getDoctorList().removeIf(doctor -> !doctor.getSpeciality().equals(specialist)));
 
