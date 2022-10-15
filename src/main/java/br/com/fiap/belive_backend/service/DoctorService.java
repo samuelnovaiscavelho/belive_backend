@@ -32,6 +32,14 @@ public class DoctorService {
         return companyService.getUserByUsername(token).getDoctorList();
     }
 
+    public Doctor findByCRM(Integer crm) {
+        return companyService.findAll().stream()
+                .flatMap(company -> company.getDoctorList().stream())
+                .filter(doctor -> doctor.getCrm().equals(crm))
+                .findFirst()
+                .orElseThrow(() -> new UserNotFoundException("Doctor not found"));
+    }
+
     public Doctor findByCRM(String cnpj, Integer crm) {
         return companyService.getByCnpj(cnpj).getDoctorList().stream()
                 .filter(doctor -> Objects.equals(doctor.getCrm(), crm))
@@ -124,6 +132,7 @@ public class DoctorService {
         if (!DateUtils.isValidDate(day, month))
             throw new RuntimeException("Invalid Date");
 
+
        return doctorList.stream().map(doctor -> {
             var start = doctor.getStartWork();
             var finish = doctor.getFinishWork();
@@ -154,7 +163,10 @@ public class DoctorService {
             response.put("crm", doctor.getCrm());
             response.put("name", doctor.getName());
             response.put("speciality", doctor.getSpeciality());
-            response.put("scheduleAvaliable", localDateTimeList);
+
+            response.put("scheduleAvaliable",
+                    LocalDate.of(Calendar.getInstance().get(Calendar.YEAR), month, day).isBefore(LocalDate.now())
+                            ? Collections.EMPTY_LIST : localDateTimeList);
 
            return response;
         }).toList();

@@ -32,7 +32,7 @@ public class DoctorController {
 
    @PostMapping("/register")
     public ResponseEntity<Doctor> registerDoctor(@RequestHeader(value = "Authorization") String token, @RequestBody @Valid Doctor doctor){
-        return new ResponseEntity(doctorService.register(token, doctor), HttpStatus.CREATED);
+        return new ResponseEntity<>(doctorService.register(token, doctor), HttpStatus.CREATED);
     }
 
    @GetMapping("/get/list")
@@ -95,7 +95,7 @@ public class DoctorController {
         List<LocalDateTime> localDateTimeList = (List<LocalDateTime>) response.get("scheduleAvaliable");
 
         response.replace("scheduleAvaliable", localDateTimeList.stream().map(localDateTime -> {
-            DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+            DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
             return ZonedDateTime.of(localDateTime, ZoneId.of("America/Sao_Paulo")).format(FORMATTER);
         }).toList());
     }

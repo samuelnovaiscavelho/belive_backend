@@ -10,6 +10,7 @@ import br.com.fiap.belive_backend.repository.CompanyRepository;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
@@ -25,6 +26,10 @@ public class CompanyServiceDefault implements DefaultUserService<Company, Compan
     public CompanyServiceDefault(CompanyRepository companyRepository, NullAwareBeanUtilsBean nullAwareBeanUtilsBean){
         this.companyRepository = companyRepository;
         this.nullAwareBeanUtilsBean = nullAwareBeanUtilsBean;
+    }
+
+    public List<Company> findAll(){
+        return companyRepository.findAll();
     }
 
     @Override
@@ -89,5 +94,14 @@ public class CompanyServiceDefault implements DefaultUserService<Company, Compan
         companyList.forEach(company -> company.getDoctorList().removeIf(doctor -> !doctor.getSpeciality().equals(specialist)));
 
         return companyList;
+    }
+
+    public Company getByAppointmentCode(Integer appointmentCode) {
+        return findAll().stream()
+                .filter(company -> company.getDoctorList().stream()
+                        .anyMatch(doctor -> doctor.getScheduledAppointment().stream()
+                        .anyMatch(appointment -> appointment.getCode().equals(BigInteger.valueOf(appointmentCode)))))
+                .findAny()
+                .orElseThrow(() -> new RuntimeException("Appointment not found"));
     }
 }
