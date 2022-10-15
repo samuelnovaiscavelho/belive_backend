@@ -2,19 +2,14 @@
 
 <img align="center" alt="BeLive-HTML" height="120" width="130" src="https://github.com/samuelnovaiscavelho/img_BeLive/blob/main/Belive1.png">
 
-## Proposta
-O BeLive tem como proposta oferecer um sistema onde o cliente poderá realizar consultas médicas de maneira facilitada. Oferecendo um sistema simplificado e intuitivo de forma a atender as necessidades dos clientes que necessitam de atendimento médico mas possuem dificuldade para lidar com tecnologia.
-
-## Documentação
-[CHALLENGE_DEF_SPRINT_3.docx](https://github.com/evertonSouzaMeli/belive_backend/files/9595297/CHALLENGE_DEF_SPRINT_3.docx)
-
-
 ## Stack tecnologico
-* [![Java][Java]][Java-url]
-* [![Spring][Spring]][Spring-url]
-* [![React][React]][React-url]
-* [![React Native][React Native]][React Native-url]
-* [![Azure][Azure]][Azure-url]
+* [![Java][Java]][Java-url] (v 17.0)
+* [![Spring][Spring]][Spring-url] (v 2.7.3)
+* [![React][React]][React-url] (v 16.17.0)
+* [![React Native][React Native]][React Native-url] (v 16.17.0)
+* [![Azure][Azure]][Azure-url] 
+
+
 
 ## Arquitetura de Solução 
 <img align="center" alt="Arquitetura-Solucao" src="https://i.imgur.com/6erHJsM.png">
@@ -171,6 +166,64 @@ Authorization -> **Type:** Basic Auth
 
 ## DDL
 ```
+CREATE TABLE tb_address (
+    id_address   NUMBER(9) NOT NULL,
+    nm_street    VARCHAR2(100) NOT NULL,
+    nm_district  VARCHAR2(50) NOT NULL,
+    nm_city      VARCHAR2(50) NOT NULL,
+    nm_state     VARCHAR2(20) NOT NULL,
+    cd_zipcode   VARCHAR2(9) NOT NULL
+);
+
+ALTER TABLE tb_address ADD CONSTRAINT tb_address_pk PRIMARY KEY ( id_address );
+
+CREATE TABLE tb_cliente (
+    tb_user_id_usuario  NUMBER(9) NOT NULL,
+    cpf                 VARCHAR2(15) NOT NULL
+);
+
+ALTER TABLE tb_cliente ADD CONSTRAINT tb_cliente_pk PRIMARY KEY ( tb_user_id_usuario );
+
+CREATE TABLE tb_company (
+    tb_user_id_usuario  NUMBER(9) NOT NULL,
+    cnpj                VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE tb_company ADD CONSTRAINT tb_company_pk PRIMARY KEY ( tb_user_id_usuario );
+
+CREATE TABLE tb_user (
+    id_usuario                   NUMBER(9) NOT NULL,
+    nm_usuario                   VARCHAR2(256) NOT NULL,
+    type_user                    VARCHAR2(10) NOT NULL,
+    tb_user_login_id_user_login  NUMBER(9) NOT NULL,
+    tb_address_id_address        NUMBER(9) NOT NULL
+);
+
+ALTER TABLE tb_user ADD CONSTRAINT tb_user_pk PRIMARY KEY ( id_usuario );
+
+CREATE TABLE tb_user_login (
+    id_user_login   NUMBER(9) NOT NULL,
+    login_email     VARCHAR2(256) NOT NULL,
+    login_password  VARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE tb_user_login ADD CONSTRAINT tb_user_login_pk PRIMARY KEY ( id_user_login );
+
+ALTER TABLE tb_cliente
+    ADD CONSTRAINT tb_cliente_tb_user_fk FOREIGN KEY ( tb_user_id_usuario )
+        REFERENCES tb_user ( id_usuario );
+
+ALTER TABLE tb_company
+    ADD CONSTRAINT tb_company_tb_user_fk FOREIGN KEY ( tb_user_id_usuario )
+        REFERENCES tb_user ( id_usuario );
+
+ALTER TABLE tb_user
+    ADD CONSTRAINT tb_user_tb_address_fk FOREIGN KEY ( tb_address_id_address )
+        REFERENCES tb_address ( id_address );
+
+ALTER TABLE tb_user
+    ADD CONSTRAINT tb_user_tb_user_login_fk FOREIGN KEY ( tb_user_login_id_user_login )
+        REFERENCES tb_user_login ( id_user_login );
 
 ```
 
