@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AppointmentService {
@@ -46,7 +47,7 @@ public class AppointmentService {
 
     public List<AppointmentDTO> findAllByTokenDTO(String token){
         return customerServiceDefault.getUserByUsername(token).getAppointmentList().stream()
-                .map(AppointmentDTO::toDTO).toList();
+                .map(AppointmentDTO::toDTO).collect(Collectors.toList());
     }
 
     public Appointment cancelAppointment(String token, Integer appointmentCode) {
