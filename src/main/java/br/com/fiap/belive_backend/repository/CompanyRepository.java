@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface CompanyRepository extends UserRepository<Company, String> {
-    Optional<Company> findByCnpj(String cpf);
+    Optional<Company> findByCnpj(String cnpj);
 }

@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.springframework.data.mongodb.core.index.Indexed;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Company extends User {
-    @Indexed(unique = true, background = true)
     private String cnpj;
 
     private List<Doctor> doctorList = new ArrayList<>();

@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerServiceDefault implements DefaultUserService<Customer, CustomerDTO> {
@@ -29,6 +30,8 @@ public class CustomerServiceDefault implements DefaultUserService<Customer, Cust
 
     @Override
     public Customer register(CustomerDTO customerDTO){
+        customerDTO.setCpf(customerDTO.getCpf().replaceAll("\\D", ""));
+
         Customer customer = CustomerDTO.toModel(customerDTO);
 
         encryptPassword(customer.getUserLogin());
@@ -49,7 +52,7 @@ public class CustomerServiceDefault implements DefaultUserService<Customer, Cust
     public Customer getUserByUsername(String token) {
         String decodedToken = new String(Base64.getDecoder().decode(token.replace("Basic ", "")));
 
-        List<String> userInfo = Arrays.stream(decodedToken.split(":")).toList();
+        List<String> userInfo = Arrays.stream(decodedToken.split(":")).collect(Collectors.toList());
 
         return customerRepository.findByUserLogin_Username(userInfo.get(0))
                 .filter(user -> user.getTypeOfUser().equals(User.Type.CUSTOMER))

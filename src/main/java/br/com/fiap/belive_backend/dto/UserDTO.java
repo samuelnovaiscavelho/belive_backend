@@ -1,7 +1,6 @@
 package br.com.fiap.belive_backend.dto;
 
 import br.com.fiap.belive_backend.model.User.Type;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +16,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class UserDTO {
 
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String id;
 
     @Size(min = 5, max = 255, message = "Name must contain {min} to {max} characters")
@@ -31,5 +30,5 @@ public class UserDTO {
     @Valid
     private UserLoginDTO userLoginDTO;
 
-    private Type type;
+    private Type typeOfUser;
 }
