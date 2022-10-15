@@ -50,4 +50,14 @@ public class AddressDTO {
                 .zipCode(addressDTO.getZipCode())
                 .build();
     }
+
+    public static AddressDTO toDTO(Address address) {
+        return AddressDTO.builder()
+                .street(address.getStreet())
+                .district(address.getDistrict())
+                .city(address.getCity())
+                .state(address.getState())
+                .zipCode(address.getZipCode())
+                .build();
+    }
 }

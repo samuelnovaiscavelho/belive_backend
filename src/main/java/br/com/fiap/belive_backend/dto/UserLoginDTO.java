@@ -29,4 +29,11 @@ public class UserLoginDTO {
                 .password(userLoginDTO.getPassword())
                 .build();
     }
+
+    public static UserLoginDTO toDTO(UserLogin userLogin) {
+        return UserLoginDTO.builder()
+                .username(userLogin.getUsername())
+                .password(userLogin.getPassword())
+                .build();
+    }
 }
