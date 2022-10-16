@@ -164,7 +164,7 @@ public class DoctorService {
             response.put("name", doctor.getName());
             response.put("speciality", doctor.getSpeciality());
 
-            response.put("scheduleAvaliable",
+            response.put("scheduleAvailable",
                     LocalDate.of(Calendar.getInstance().get(Calendar.YEAR), month, day).isBefore(LocalDate.now())
                             ? Collections.EMPTY_LIST : localDateTimeList);
 

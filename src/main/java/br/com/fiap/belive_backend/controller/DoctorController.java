@@ -93,9 +93,9 @@ public class DoctorController {
     }
 
     private void parseLocaleDateTimeToString(Map<String, Object> response) {
-        List<LocalDateTime> localDateTimeList = (List<LocalDateTime>) response.get("scheduleAvaliable");
+        List<LocalDateTime> localDateTimeList = (List<LocalDateTime>) response.get("scheduleAvailable");
 
-        response.replace("scheduleAvaliable", localDateTimeList.stream().map(localDateTime -> {
+        response.replace("scheduleAvailable", localDateTimeList.stream().map(localDateTime -> {
             DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
             return ZonedDateTime.of(localDateTime, ZoneId.of("America/Sao_Paulo")).format(FORMATTER);
         }).collect(Collectors.toList()));

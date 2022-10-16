@@ -3,7 +3,9 @@ package br.com.fiap.belive_backend.service;
 import br.com.fiap.belive_backend.config.NullAwareBeanUtilsBean;
 import br.com.fiap.belive_backend.dto.CompanyDTO;
 import br.com.fiap.belive_backend.exception.UserNotFoundException;
+import br.com.fiap.belive_backend.model.Appointment;
 import br.com.fiap.belive_backend.model.Company;
+import br.com.fiap.belive_backend.model.Doctor;
 import br.com.fiap.belive_backend.model.User;
 import br.com.fiap.belive_backend.model.User.UserLogin;
 import br.com.fiap.belive_backend.repository.CompanyRepository;
@@ -11,10 +13,9 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -93,6 +94,20 @@ public class CompanyServiceDefault implements DefaultUserService<Company, Compan
                 .collect(Collectors.toList());
 
         companyList.forEach(company -> company.getDoctorList().removeIf(doctor -> !doctor.getSpeciality().equals(specialist)));
+
+        return companyList;
+    }
+
+    public List<Company> findAllCompanyContainsDoctorSpecialist(String specialist, Integer day, Integer month ){
+        List<Company> companyList = findAllCompanyContainsDoctorSpecialist(specialist);
+
+        companyList.removeIf(company -> company.getDoctorList().stream()
+                .map(Doctor::getScheduledAppointment)
+                .flatMap(appointments -> appointments.stream().map(Appointment::getStartOfAppointment))
+                .noneMatch(localDateTime -> Objects.equals(
+                        LocalDate.from(localDateTime),
+                        LocalDate.of(Calendar.getInstance().get(Calendar.YEAR), month, day)
+                )));
 
         return companyList;
     }

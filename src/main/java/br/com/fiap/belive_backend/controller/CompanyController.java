@@ -58,8 +58,10 @@ public class CompanyController {
     }
 
     @GetMapping("/get/available_company")
-    public ResponseEntity<List<Company>> findAllCompanyWithSpecialist(@RequestParam(defaultValue = "") String specialist){
-        List<Company> availableCompany = companyService.findAllCompanyContainsDoctorSpecialist(specialist);
+    public ResponseEntity<List<Company>> findAllCompanyWithSpecialist(@RequestParam(defaultValue = "") String specialist,
+                                                                      @RequestParam(defaultValue = "") Integer day,
+                                                                      @RequestParam(defaultValue = "") Integer month ){
+        List<Company> availableCompany = companyService.findAllCompanyContainsDoctorSpecialist(specialist, day, month);
         return ResponseEntity.ok(availableCompany);
     }
 }

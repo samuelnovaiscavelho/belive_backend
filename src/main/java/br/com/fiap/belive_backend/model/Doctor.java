@@ -23,9 +23,9 @@ public class Doctor {
 
     private List<Appointment> scheduledAppointment = new ArrayList<>();
 
-    @JsonFormat(pattern = "HH:mm:ss")
+    @JsonFormat(pattern = "HH:mm:ss", timezone = "America/Sao_Paulo")
     private LocalTime startWork;
 
-    @JsonFormat(pattern = "HH:mm:ss")
+    @JsonFormat(pattern = "HH:mm:ss", timezone = "America/Sao_Paulo")
     private LocalTime finishWork;
 }
