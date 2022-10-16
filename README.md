@@ -368,6 +368,11 @@ http://localhost:8080
 
 
 
+Link serviço na Azure(Nuvem)
 
+```
+belive-rm88233.azurewebsites.net 
+
+```
 
 
