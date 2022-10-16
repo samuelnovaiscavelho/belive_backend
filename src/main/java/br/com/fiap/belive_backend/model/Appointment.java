@@ -28,7 +28,7 @@ public class Appointment {
 
     private AppointmentStatus appointmentStatus;
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss", timezone = "America/Sao_Paulo")
     private LocalDateTime startOfAppointment;
 
     public enum AppointmentStatus{

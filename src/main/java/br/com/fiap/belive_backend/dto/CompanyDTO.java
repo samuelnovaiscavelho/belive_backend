@@ -26,7 +26,6 @@ public class CompanyDTO extends UserDTO{
         return Company.builder()
                 .name(companyDTO.getName())
                 .userLogin(UserLoginDTO.toModel(companyDTO.getUserLoginDTO()))
-                .address(AddressDTO.toModel(companyDTO.getAddressDTO()))
                 .cnpj(companyDTO.getCnpj())
                 .typeOfUser(User.Type.COMPANY)
                 .build();
