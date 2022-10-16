@@ -1,6 +1,6 @@
 ## Belive
 
-<img align="center" alt="BeLive-HTML" height="120" width="130" src="https://github.com/samuelnovaiscavelho/img_BeLive/blob/main/Belive1.png">
+<img align="center" alt="BeLive-HTML" height="160" width="170" src="https://i.imgur.com/lLkrjNP.png">
 
 ## Stack tecnologico
 * [![Java][Java]][Java-url] (v 17.0)
@@ -12,7 +12,11 @@
 
 
 ## Arquitetura de Solução 
-<img align="center" alt="Arquitetura-Solucao" src="https://i.imgur.com/6erHJsM.png">
+<img align="center" alt="Arquitetura-Solucao" src="https://i.imgur.com/s82bYLL.jpg">
+
+## Prototipo da aplicação (Telas)
+<img align="center" alt="Arquitetura-Solucao" src="https://i.imgur.com/44myH3K.png">
+
 
 ## Cliente - Customer
 ### POST REGISTER
@@ -239,3 +243,23 @@ ALTER TABLE tb_user
 [React Native-url]: https://reactnative.dev/
 [Azure]: https://img.shields.io/badge/azure-%230072C6.svg?style=for-the-badge&logo=microsoftazure&logoColor=white
 [Azure-url]: https://azure.microsoft.com/pt-br/
+
+
+
+
+
+## Prototipo da aplicação (Telas)
+<img align="center" alt="Arquitetura-Solucao" src="https://i.imgur.com/xH7WBiy.jpg">
+
+
+### Comandos Criação da Pipeline (CI/CD)
+
+[POST] - http://localhost:8080/user/company/register
+```
+-> Abrir Terminal
+	- Colar o seguinte comando na VM: cat /var/lib/jenkins/secrets/initialAdminPassword
+			- sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+			
+Senha jenkis gerada:
+1f3af9ba491c42b7b3650ea7b30b9f74
+```
