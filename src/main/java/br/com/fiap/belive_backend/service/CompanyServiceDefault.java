@@ -98,20 +98,6 @@ public class CompanyServiceDefault implements DefaultUserService<Company, Compan
         return companyList;
     }
 
-    public List<Company> findAllCompanyContainsDoctorSpecialist(String specialist, Integer day, Integer month ){
-        List<Company> companyList = findAllCompanyContainsDoctorSpecialist(specialist);
-
-        companyList.removeIf(company -> company.getDoctorList().stream()
-                .map(Doctor::getScheduledAppointment)
-                .flatMap(appointments -> appointments.stream().map(Appointment::getStartOfAppointment))
-                .noneMatch(localDateTime -> Objects.equals(
-                        LocalDate.from(localDateTime),
-                        LocalDate.of(Calendar.getInstance().get(Calendar.YEAR), month, day)
-                )));
-
-        return companyList;
-    }
-
     public Company getByAppointmentCode(Integer appointmentCode) {
         return findAll().stream()
                 .filter(company -> company.getDoctorList().stream()
