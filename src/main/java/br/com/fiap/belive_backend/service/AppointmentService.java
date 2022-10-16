@@ -138,10 +138,6 @@ public class AppointmentService {
         LocalTime startOfAppointmentTime = LocalTime.from(appointment.getStartOfAppointment());
         LocalDate startOfAppointmentDate = LocalDate.from(appointment.getStartOfAppointment());
 
-        /*if (doctor.getScheduledAppointment().stream()
-                .anyMatch(appoint -> appoint.getStartOfAppointment().isEqual(appointment.getStartOfAppointment())))
-            throw new RuntimeException("Appointment Unavailable");*/
-
         if (startOfAppointmentTime.isBefore(doctor.getStartWork()) && startOfAppointmentTime.isAfter(doctor.getFinishWork())) {
             throw new RuntimeException("Appointment Date Unavailable");
         }

@@ -35,9 +35,7 @@ public class AppointmentDTO {
 
     private CompanyDTO companyDTO;
 
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss", timezone = "America/Sao_Paulo")
     private LocalDateTime startOfAppointment;
 
     public static Appointment toModel(AppointmentDTO appointmentDTO){
