@@ -249,7 +249,7 @@ ALTER TABLE tb_user
 
 
 ## Arquitetura Pipeline (CI/CD)
-<img align="center" alt="Arquitetura-Solucao" src="https://i.imgur.com/xH7WBiy.jpg">
+<img align="center" alt="Arquitetura-Solucao" src="https://i.imgur.com/sVDhzGL.jpg">
 
 
 ### Comandos Criação da Pipeline (CI/CD)
