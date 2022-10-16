@@ -248,13 +248,12 @@ ALTER TABLE tb_user
 
 
 
-## Prototipo da aplicação (Telas)
+## Arquitetura Pipeline (CI/CD)
 <img align="center" alt="Arquitetura-Solucao" src="https://i.imgur.com/xH7WBiy.jpg">
 
 
 ### Comandos Criação da Pipeline (CI/CD)
 
-[POST] - http://localhost:8080/user/company/register
 ```
 -> Abrir Terminal
 	- Colar o seguinte comando na VM: cat /var/lib/jenkins/secrets/initialAdminPassword
@@ -263,3 +262,112 @@ ALTER TABLE tb_user
 Senha jenkis gerada:
 1f3af9ba491c42b7b3650ea7b30b9f74
 ```
+Java Utilizado
+```
+Versão: 11 do jdk
+caminho do projeto no linux: /home/oem/IdeaProjects/belive_backend 
+
+```
+Acesso pela porta
+
+```
+http://localhost:8080
+
+```
+Credenciais da Pipelime
+
+```
+Nome de usuário: belive
+Senha: grupo3
+Nome completo: BeLive
+Endereço de e-mail: rm88233@fiap.com.br
+
+```
+
+Descrição da Pipeline criada
+```
+O projeto BeLive tem como objetivo oferecer uma aplicação totalmente intuitiva e com uma interface amigável, com destaque para comandos de voz. 
+
+Tais comandos são usados para acessos a todas as funcionalidades da aplicação de forma a criar um ambiente facilitador de comunicação entre tecnologia e usuário, a usabilidade da aplicação é focada para indivíduos que tem dificuldade com tecnologia, então pensamos em uma forma dinâmica e facilitadora na questão de usabilidade.
+
+```
+
+Instalação do plugin no Jenkins
+
+```
+Blue Ocean
+
+```
+
+Criação da Pipeline
+
+```
+node {
+
+  def resourceGroupName = 'rg-belive'
+  def resourceGroupLocation = 'brazilsouth'
+  def appServicePlanName = 'belivePlan'
+  def appServicePlanTier = 'FREE'
+  def webAppName = 'belive-rm88233'
+  def webAppRuntime = '"java:11:Java SE:11"'
+  def packagePath = 'target/belive_backend-0.0.1-SNAPSHOT.jar'
+
+  stage('Extrair Codigo Fonte') {
+    echo 'Obtendo o Código Fonte ...'
+    checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], 
+userRemoteConfigs: [[url: 'https://github.com/samuelnovaiscavelho/belive_backend.git']]])
+  }
+
+  stage('Build') {
+    echo 'Empacotando o projeto...'
+    sh '/opt/maven/bin/mvn clean package'
+  }
+
+  stage('Credenciais Azure') {
+    echo 'Obtendo credenciais...'
+    withCredentials([usernamePassword(credentialsId: 'AzureService', 
+      passwordVariable: 'AZURE_CLIENT_SECRET',
+      usernameVariable: 'AZURE_CLIENT_ID')]) {
+      echo 'Logando na Azure...'
+      sh 'az login -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET'
+    }
+  }
+
+  stage('Criar Infra') {
+    echo 'Criando o Grupo de Recursos...'
+    sh "az group create --name $resourceGroupName --location $resourceGroupLocation"
+    echo 'Criando Plano de Serviço...'
+    sh "az appservice plan create --name $appServicePlanName --resource-group $resourceGroupName --sku $appServicePlanTier"
+    echo 'Criando o Web App...'
+    sh "az webapp create --name $webAppName --plan $appServicePlanName --resource-group $resourceGroupName --runtime $webAppRuntime"
+  }
+
+  stage('Deploy') {
+     echo 'Realizando o Deploy na Azure...'
+     sh "az webapp deploy --resource-group $resourceGroupName --name $webAppName --src-path $packagePath --type jar"
+  }
+
+}
+
+```
+Iniciar Web Browser com Aplicação
+
+```
+az login
+
+az webapp browse --name belive-rm88233 --resource-group rg-belive
+
+```
+Listar Runtimes
+
+```
+http://localhost:8080
+
+```
+
+
+
+
+
+
+
