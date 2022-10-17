@@ -12,7 +12,7 @@
 
 
 ## Arquitetura de Solução 
-<img align="center" alt="Arquitetura-Solucao" src="https://i.imgur.com/s82bYLL.jpg">
+<img align="center" alt="Arquitetura-Solucao" src="https://i.imgur.com/P0Fkp9R.jpg">
 
 ## Prototipo da aplicação (Telas)
 <img align="center" alt="Arquitetura-Solucao" src="https://i.imgur.com/44myH3K.png">
