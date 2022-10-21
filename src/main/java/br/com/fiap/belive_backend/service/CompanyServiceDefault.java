@@ -10,6 +10,7 @@ import br.com.fiap.belive_backend.model.User;
 import br.com.fiap.belive_backend.model.User.UserLogin;
 import br.com.fiap.belive_backend.repository.CompanyRepository;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
@@ -19,6 +20,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class CompanyServiceDefault implements DefaultUserService<Company, CompanyDTO> {
 
     private final CompanyRepository companyRepository;
@@ -94,7 +96,6 @@ public class CompanyServiceDefault implements DefaultUserService<Company, Compan
                 .collect(Collectors.toList());
 
         companyList.forEach(company -> company.getDoctorList().removeIf(doctor -> !doctor.getSpeciality().equals(specialist)));
-
         return companyList;
     }
 
