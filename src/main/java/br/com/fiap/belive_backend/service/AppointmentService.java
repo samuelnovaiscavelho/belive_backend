@@ -10,6 +10,8 @@ import br.com.fiap.belive_backend.model.Company;
 import br.com.fiap.belive_backend.model.Customer;
 import br.com.fiap.belive_backend.model.Doctor;
 import br.com.fiap.belive_backend.repository.AppointmentRepository;
+import java.util.Comparator;
+import java.util.Optional;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
@@ -150,5 +152,22 @@ public class AppointmentService {
     private Appointment findAppointmentByCode(Integer appointmentCode) {
         return appointmentRepository.findByCode(BigInteger.valueOf(appointmentCode))
                 .orElseThrow(() -> new RuntimeException("Appointment not found"));
+    }
+
+    public Optional<AppointmentDTO> findNextAppointment(String token) {
+        List<Appointment> appointmentList = findAllByToken(token).stream()
+                .filter(appointment -> appointment.getAppointmentStatus().equals(AppointmentStatus.IN_PROGRESS))
+                .collect(Collectors.toList());
+
+        if(appointmentList.isEmpty()){
+            return Optional.empty();
+        }
+
+        appointmentList = appointmentList.stream()
+                .sorted(Comparator.comparing(Appointment::getStartOfAppointment))
+                .collect(Collectors.toList());
+
+
+        return Optional.ofNullable(appointmentList.get(0)).map(AppointmentDTO::toDTO);
     }
 }

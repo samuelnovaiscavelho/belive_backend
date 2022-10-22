@@ -99,8 +99,6 @@ public class CompanyServiceDefault implements DefaultUserService<Company, Compan
         return companyList;
     }
 
-
-
     public Company getByAppointmentCode(Integer appointmentCode) {
         return findAll().stream()
                 .filter(company -> company.getDoctorList().stream()

@@ -3,6 +3,7 @@ package br.com.fiap.belive_backend.controller;
 import br.com.fiap.belive_backend.dto.AppointmentDTO;
 import br.com.fiap.belive_backend.model.Appointment;
 import br.com.fiap.belive_backend.service.AppointmentService;
+import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,5 +48,10 @@ public class AppointmentController {
     public ResponseEntity<Appointment> cancelAppointment(@RequestHeader(name = "Authorization") String token,
                                                          @RequestParam(name = "code") Integer appointmentCode) {
         return ResponseEntity.ok(appointmentService.cancelAppointment(token, appointmentCode));
+    }
+
+    @GetMapping("get/next_appointment")
+    public ResponseEntity<Optional<AppointmentDTO>> findNextAppointment(@RequestHeader(name = "Authorization") String token){
+        return ResponseEntity.ok(appointmentService.findNextAppointment(token));
     }
 }
