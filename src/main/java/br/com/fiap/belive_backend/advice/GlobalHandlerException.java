@@ -16,6 +16,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+@RestControllerAdvice
 public class GlobalHandlerException {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
