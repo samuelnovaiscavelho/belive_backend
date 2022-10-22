@@ -50,7 +50,7 @@ public class AppointmentController {
         return ResponseEntity.ok(appointmentService.cancelAppointment(token, appointmentCode));
     }
 
-    @GetMapping("get/next_appointment")
+    @GetMapping("/get/next_appointment")
     public ResponseEntity<Optional<AppointmentDTO>> findNextAppointment(@RequestHeader(name = "Authorization") String token){
         return ResponseEntity.ok(appointmentService.findNextAppointment(token));
     }
