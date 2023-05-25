@@ -25,9 +25,9 @@ public abstract class User {
 
     private String name;
 
-    private UserLogin userLogin;
+    private String phone;
 
-    private Address address;
+    private UserLogin userLogin;
 
     private Type typeOfUser;
 

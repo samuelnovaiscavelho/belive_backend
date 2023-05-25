@@ -22,9 +22,7 @@ public class UserDTO {
     @Size(min = 5, max = 255, message = "Name must contain {min} to {max} characters")
     private String name;
 
-    @JsonProperty("address")
-    @Valid
-    private AddressDTO addressDTO;
+    private String phone;
 
     @JsonProperty("userLogin")
     @Valid
